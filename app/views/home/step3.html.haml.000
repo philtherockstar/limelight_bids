@@ -1,0 +1,58 @@
+%h3 Choose Furniture for Rooms
+<p>Total Rental Cost: $<span class="total_rental_cost">0</span>/mo</p>
+<p>Weekly Rental Cost: $<span class="weekly_rental_cost">0</span>/wk</p>
+%div#room.items.table
+= form_tag('/home/step3proc') do
+  = hidden_field_tag('bid_id',@bid.id)
+  - @bid_rooms.each do |br| 
+    - if br.num_rooms > 1 
+      - cnt=1
+      - while cnt <= br.num_rooms
+        %div 
+          %div colspan="2"
+          ="#{br.room.name} %{cnt}"
+          %div #
+          %div $
+          %div total
+        - tri = TemplateRoomItem.find_all_by_business_id_and_room_id(@business.id,br.room_id) 
+        - tri.each do |ri|
+          %div
+            %div 
+              &nbsp; &nbsp;
+              =ri.item.name
+            %div
+              <input type="text" 
+              ="id=\"bid_rooms_item_%{cnt}_%{ri.id}\" name=\"bid_rooms_item_#{cnt}_\[%{ri.id}\]\" size=\"3\" value=\"#{ri.quantity}\" class=\"bid_room_item_quantity\" /> "
+             <input type="text" 
+              ="id=\"bid_rooms_item_rental_price_%{cnt}_%{ri.id}\" name=\"bid_rooms_item_rental_price_%{cnt}_\[%{ri.id}\]\" size=\"6\" value=\"%{ri.item.rental_price}\"  class=\"bid_room_item_rental_price\"/> "
+              ="<div id=\"bid_rooms_item_total_%{cnt}_%{ri.id}\" class=\"bid_room_item_total\" />%{ri.quantity * ri.item.rental_price}</div>"
+              <div>&nbsp; &nbsp;</td><td colspan="2"><input type="button" value="Add items"/></td></tr>
+        - cnt += 1 
+    - else
+      %div.room.items.row 
+        %div.room.items.cell 
+          =br.room.name
+        %div.room.items.cell #
+        %div.room.items.cell $
+        %div.room.items.cell total
+      - tri = TemplateRoomItem.find_all_by_business_id_and_room_id(@business.id,br.room_id) 
+      - tri.each do |ri|
+        %div.room.items.row 
+	%div.room.items.cell &nbsp; &nbsp;
+          =ri.item.name
+        %div.room.items.cell
+          <input type="text" 
+          ="id=\"bid_rooms_item_%{ri.id}\" name=\"bid_rooms_item__\[%{ri.id}\]\" size=\"3\" value=\"#{ri.quantity}\" class=\"bid_room_item_quantity\" />"
+        %div.room.items.cell
+          <input type="text" 
+          ="id=\"bid_rooms_item_rental_price_%{ri.id}\" name=\"bid_rooms_item_rental_price_\[%{ri.id}\]\" size=\"6\" value=\"%{ri.item.rental_price}\"  class=\"bid_room_item_rental_price\"/>"
+        %div.room.items.cell
+          %div#bid_rooms_item_total_%{ri.id}.bid_room_item_total
+            =ri.quantity * ri.item.rental_price}
+        %div.room.items.row 
+        %div.room.items.cell
+          &nbsp; &nbsp;
+        %div.room.items.cell
+          <input type="button" value="Add items"/>
+<p>Total Rental Cost: $<span class="total_rental_cost">0</span>/mo</p>
+<p>Weekly Rental Cost: $<span class="weekly_rental_cost">0</span>/wk</p>

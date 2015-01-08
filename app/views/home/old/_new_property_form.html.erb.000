@@ -1,0 +1,26 @@
+<table>
+<%= form_for(@property) do |f| %>
+  <% if @property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@property.errors.count, "error") %> prohibited this property from being saved:</h2>
+
+      <ul>
+      <% @property.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <tr> <td> <%= f.label :address %></td><td><%= f.text_field :address %></td> </tr>
+  <tr> <td> <%= f.label :city %></td><td><%= f.select :city, @cities %> </td> </tr>
+  <p> <%= f.hidden_field :state_id, :value => 6 %> </p>
+  <p> <%= f.hidden_field :country_id, :value => 226 %> </p>
+  <p> <%= f.hidden_field :business_id, :value => 1 %> </p>
+  <tr><td colspan="2">
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  </td>
+  </tr>
+<% end %>
+</table>

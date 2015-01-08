@@ -1,0 +1,26 @@
+%div.table
+  - @bid_rooms.each do |br|
+    - cnt=1
+    - while cnt <= br.num_rooms
+      %div.table_heading
+        %div.table_cell
+          - if br.num_rooms > 1
+            ="#{br.room.name} #{cnt}"
+          - else
+            ="#{br.room.name}"
+        %div.table_cell
+          qty
+        %div.table_cell
+          $
+        %div.table_cell
+          total
+      - bri = BidRoomItem.find_all_by_bid_room_id(br.id)
+      - bri.each do |ri|
+        %div.table_row
+          %div.table_cell
+            = "#{ri.item.name}"
+          %div.table_cell
+            = "#{ri.item_qty}"
+          %div.table_cell
+            = "#{ri.rental_price}"
+

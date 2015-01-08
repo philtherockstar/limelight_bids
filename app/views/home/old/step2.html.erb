@@ -1,0 +1,21 @@
+<div>
+  <%= form_tag('/home/step2proc') do -%>
+    <%= hidden_field_tag('bid_id',@bid.id) -%>
+    <h2>Add rooms for <i><%= @bid.property.address %>, <%= @bid.property.city %></i></h2>
+    <% @rooms.each do |room| 
+       default_value=0
+       case room.name
+         when /Master Bedroom|Master Bathroom|Living Room|^Kitchen$|Dining Area/
+           default_value=1
+         when /^Bathroom$/
+           default_value=2
+       end
+    %>
+  
+      <input type="text" id="rooms_<%= room.id %>" name="rooms[<%= room.id %>]" size="3" value="<%= default_value %>" /> 
+
+      <%= room.name %><br/>
+    <% end %>
+  <input type="submit" value="Next >" name="next">
+  <% end -%>
+</div>

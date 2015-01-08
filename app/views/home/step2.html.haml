@@ -1,0 +1,17 @@
+%div
+  = form_tag('/home/step2proc') do
+    = hidden_field_tag('bid_id',@bid.id) 
+    %h2= "Add rooms for #{@bid.property.address} #{@bid.property.city}"
+    - @rooms.each do |room|
+      - default_value=0
+      - case room.name
+        - when /Master Bedroom|Master Bathroom|Living Room|^Kitchen$|Dining Area/
+          - default_value=1
+        - when /^Bathroom$/
+          - default_value=2
+  
+      =text_field_tag "rooms[#{room.id}]", default_value, {:size => 3}
+
+      = room.name
+      %br
+    =submit_tag "Next >" 

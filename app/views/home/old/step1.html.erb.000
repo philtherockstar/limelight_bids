@@ -1,0 +1,5 @@
+<p>Bid on a new propery:</p>
+<%= render 'new_property_form' %>
+<p> --or-- </p>
+<p>Change an existing bid:</p> 
+<%= render 'existing_property_form' %>

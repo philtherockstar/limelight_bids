@@ -1,0 +1,9 @@
+PRAGMA synchronous = OFF;
+PRAGMA journal_mode = MEMORY;
+BEGIN TRANSACTION;
+CREATE TABLE "business_cities" (
+  "id"  INTEGER PRIMARY KEY,
+  "business_id"  INTEGER ,
+  "city" varchar(128) NOT NULL,
+  CONSTRAINT "business_cities_fk" FOREIGN KEY ("business_id") REFERENCES "businesses" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+);

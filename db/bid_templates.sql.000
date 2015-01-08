@@ -1,0 +1,33 @@
+PRAGMA synchronous = OFF;
+PRAGMA journal_mode = MEMORY;
+BEGIN TRANSACTION;
+CREATE TABLE "bid_templates" (
+  "id"  INTEGER PRIMARY KEY,
+  "template" varchar(64) DEFAULT NULL
+);
+INSERT INTO "bid_templates" VALUES (0,'1bd, 1ba, 1lr/dr, kit');
+INSERT INTO "bid_templates" VALUES (1,'1bd, 1ba, 1lr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (2,'2bd, 1ba, 1lr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (3,'2bd, 2ba, 1lr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (4,'2bd, 2ba, 1lr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (5,'3bd, 2ba, 1lr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (6,'3bd, 2.5ba, 1lr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (7,'3bd, 2ba, 1lr, 1fr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (7,'3bd, 3ba, 1lr, 1fr, kit, 1dr');
+INSERT INTO "bid_templates" VALUES (7,'3bd, 3ba, 1lr, 1fr, kit, 1dr');
+CREATE TABLE "bid_template_rooms" (
+  "id"  INTEGER PRIMARY KEY,
+  "bid_template_id" int(11) DEFAULT NULL,
+  "property_room_id" int(11) DEFAULT NULL,
+  CONSTRAINT "bid_template_rooms_fk1" FOREIGN KEY ("bid_template_id") REFERENCES "bid_templates" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT "bid_template_rooms_fk2" FOREIGN KEY ("property_room_id") REFERENCES "property_room" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+CREATE TABLE "template_room_items" (
+  "id"  INTEGER PRIMARY KEY,
+  "template_room_id" int(11) DEFAULT NULL,
+  "item_id" int(11) DEFAULT NULL,
+  CONSTRAINT "template_room_items_fk1" FOREIGN KEY ("template_room_id") REFERENCES "template_rooms" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT "template_room_items_fk2" FOREIGN KEY ("item_id") REFERENCES "items" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+CREATE INDEX "property_rooms_property_rooms_fk2" ON "property_rooms" ("room_id");
+END TRANSACTION;

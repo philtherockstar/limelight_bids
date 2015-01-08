@@ -1,0 +1,44 @@
+<h3>Choose Furniture for Rooms</h3>
+<p>Total Rental Cost: $<span class="total_rental_cost">0</span>/mo</p>
+<p>Weekly Rental Cost: $<span class="weekly_rental_cost">0</span>/wk</p>
+<%= form_tag('/home/step3proc') do -%>
+  <%= hidden_field_tag('bid_id',@bid.id) -%>
+<table border="0">
+<% @bid_rooms.each do |br| %>
+  <% if br.num_rooms > 1 
+       cnt=1
+       while cnt <= br.num_rooms
+  %>
+        <tr> <td colspan="2"><%= br.room.name %> <%= cnt %></td><td>#</td><td>$</td><td>total</td></tr>
+          <% tri = TemplateRoomItem.find_all_by_business_id_and_room_id(@business.id,br.room_id) 
+             tri.each do |ri|
+          %>
+             <tr>
+               <td>&nbsp; &nbsp;</td><td><%= ri.item.name =%></td> 
+               <td><input type="text" id="bid_rooms_item_<%= cnt %>_<%= ri.id %>" name="bid_rooms_item_" + cnt +"_[<%= ri.id %>]" size="3" value="<%= ri.quantity -%>" class="bid_room_item_quantity" /> </td> 
+               <td><input type="text" id="bid_rooms_item_rental_price_<%= cnt %>_<%= ri.id %>" name="bid_rooms_item_rental_price_" + cnt +"_[<%= ri.id %>]" size="6" value="<%= ri.item.rental_price -%>"  class="bid_room_item_rental_price"/> </td> 
+               <td><div id="bid_rooms_item_total_<%= cnt %>_<%= ri.id %>" class="bid_room_item_total" /><%= ri.quantity * ri.item.rental_price -%></div></td> 
+             </tr>
+          <% end %> <!-- tri.each -->
+          <tr><td>&nbsp; &nbsp;</td><td colspan="2"><input type="button" value="Add items"/></td></tr>
+      <% cnt += 1 %>
+    <% end %>
+  <% else %>
+    <tr> <td colspan="2"><%= br.room.name %></td><td>#</td><td>$</td><td>total</td></tr>
+    <% tri = TemplateRoomItem.find_all_by_business_id_and_room_id(@business.id,br.room_id) 
+       tri.each do |ri|
+    %>
+       <tr>
+         <td>&nbsp; &nbsp;</td><td><%= ri.item.name =%></td> 
+         <td><input type="text" id="bid_rooms_item_<%= ri.id %>" name="bid_rooms_item[<%= ri.id %>]" size="3" value="<%= ri.quantity -%>" class="bid_room_item_quantity" /> </td> 
+         <td><input type="text" id="bid_rooms_item_rental_price_<%= ri.id %>" name="bid_rooms_item_rental_price[<%= ri.id %>]" size="6" value="<%= ri.item.rental_price -%>" class="bid_room_item_rental_price" /> </td> 
+         <td><div id="bid_rooms_item_total_<%= ri.id %>" class="bid_room_item_total" /><%= ri.quantity * ri.item.rental_price -%></div></td> 
+       </tr>
+    <% end %> <!-- tri.each -->
+    <tr><td>&nbsp; &nbsp;</td><td colspan="2"><input type="button" value="Add items"/></td></tr>
+  <% end %> <!-- if br.num_rooms > 1 -->
+<% end %> <!-- bid_rooms.each -->
+</table>
+<% end -%> <!-- form -->
+<p>Total Rental Cost: $<span class="total_rental_cost">0</span>/mo</p>
+<p>Weekly Rental Cost: $<span class="weekly_rental_cost">0</span>/wk</p>
