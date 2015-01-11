@@ -10,6 +10,7 @@ class HomeController < ApplicationController
 
   def step2 
     @bid = Bid.find(params[:id])
+    @bid_rooms = BidRoom.where("bid_id = #{@bid.id}")
     @rooms = Room.all . order("display_order")
   end
 
