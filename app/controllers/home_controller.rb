@@ -35,6 +35,7 @@ class HomeController < ApplicationController
   def step3 
     @bid = Bid.find(params[:id])
     @bid_rooms = BidRoom.where("bid_id = #{@bid.id}")
+    @bid_room_items = BidRoomItem.all.where( "bid_id = #{@bid.id}")
     @business = business
   end
 
@@ -67,7 +68,7 @@ class HomeController < ApplicationController
 
   def step4 
     @bid = Bid.find(params[:id])
-    @bid_rooms = BidRoom.find_all_by_bid_id(@bid.id)
+    @bid_rooms = BidRoom.where("bid_id = #{@bid.id}")
   end
 
 end
