@@ -13,6 +13,7 @@ LimelightBids::Application.routes.draw do
      get 'home/step2/:id' => 'home#step2'
      post 'home/step2proc' => 'home#step2proc'
      get 'home/step3' => 'home#step3'
+     get 'home/step3/:id' => 'home#step3'
      post 'home/step3proc' => 'home#step3proc'
      get 'home/step4' => 'home#step4'
      get 'item(:json)' => 'item#index'

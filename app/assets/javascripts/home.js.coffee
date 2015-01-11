@@ -32,13 +32,13 @@ $(document).ready ->
     newrow = """
               <div id='row_#{room_id}_#{room_number}_#{new_row_number}' class='table_row room_#{room_id}_#{room_number}' data-room-id='#{room_id}' data-room-number='#{room_number}' data-row-number='#{new_row_number}'>
                 <div class='table_cell'>
-                  <input class='bid_room_item' id='bid_rooms_item_#{room_id}_#{room_number}_#{new_row_number}' name='bid_rooms_item[0][1][6]' size='20' type='text' placeholder='Enter New Item:' data-room-id='#{room_id}' data-room-number='#{room_number}' data-row-number='#{new_row_number}'>
+                  <input class='bid_room_item' id='bid_rooms_item_#{room_id}_#{room_number}_#{new_row_number}' name='bid_rooms_item[#{room_id}][#{room_number}][0]' size='20' type='text' placeholder='Enter New Item:' data-room-id='#{room_id}' data-room-number='#{room_number}' data-row-number='#{new_row_number}'>
                 </div>
                 <div class='table_cell'>
-                  <input class='bid_room_item_quantity' id='bid_rooms_item_quantity_#{room_id}_#{room_number}_#{new_row_number}' name='bid_rooms_item_quantity[0][1][6]' size='3' type='text' value='1'>
+                  <input class='bid_room_item_quantity' id='bid_rooms_item_quantity_#{room_id}_#{room_number}_#{new_row_number}' name='bid_rooms_item_quantity[#{room_id}][#{room_number}][0]' size='3' type='text' value='1'>
                 </div>
                 <div class='table_cell'>
-                  <input class='bid_room_item_rental_price' id='bid_rooms_item_rental_price_#{room_id}_#{room_number}_#{new_row_number}' name='bid_rooms_item_rental_price[0][1][6]' size='3' type='text' value='0'>
+                  <input class='bid_room_item_rental_price' id='bid_rooms_item_rental_price_#{room_id}_#{room_number}_#{new_row_number}' name='bid_rooms_item_rental_price[#{room_id}][#{room_number}][0]' size='3' type='text' value='0'>
                 </div>
                 <div class='table_cell bid_room_item_total' id='bid_rooms_item_total_#{room_id}_#{room_number}_#{new_row_number}'>
                   0
@@ -54,6 +54,8 @@ $(document).ready ->
         room_number=$(@).data('room-number')
         row_number=$(@).data('row-number')
         $('#bid_rooms_item_'+room_id+'_'+room_number+'_'+row_number).val(ui.item.name)
+        item_name="bid_rooms_item[" + room_id + "][" + room_number + "][" + ui.item.id + "]" 
+        $('#bid_rooms_item_'+room_id+'_'+room_number+'_'+row_number).attr('name',item_name)
         $('#bid_rooms_item_rental_price_'+room_id+'_'+room_number+'_'+row_number).val(ui.item.rental_price)
         qty_name="bid_rooms_item_quantity[" + room_id + "][" + room_number + "][" + ui.item.id + "]" 
         $('#bid_rooms_item_quantity_'+room_id+'_'+room_number+'_'+row_number).attr('name',qty_name)
@@ -66,7 +68,7 @@ $(document).ready ->
       ).data('ui-autocomplete')._renderItem = ( ul, item ) ->
         $( "<li>" )
           .data( "item.autocomplete", item)
-          .append( item.name )
+          .append( item.name + " $" + item.rental_price )
           .appendTo( ul )
     $('.bid_room_item_quantity').change ->
       qty = $(@).val()

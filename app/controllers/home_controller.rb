@@ -18,18 +18,15 @@ class HomeController < ApplicationController
     bid_id = params[:bid_id]
     BidRoom.delete_all(["bid_id = ?", bid_id])
     ActiveRecord::Base.transaction do
-
       rooms.each do |room|
-
         if room[1].to_i > 0 
            br = BidRoom.new
            br.bid_id = bid_id
            br.room_id = room[0]
            br.num_rooms = room[1]
            br.save
-        end 
+        end       
       end 
-
     end
     redirect_to :action => 'step3', :id => bid_id
   end
@@ -54,6 +51,7 @@ class HomeController < ApplicationController
               bri.bid_room_id = bid_room_id
               bri.room_instance = instance_num
               bri.item_id = item_id
+              bri.item_name = params[:bid_rooms_item][bid_room_id][instance_num][item_id]
               bri.item_qty = qty
               bri.rental_price = params[:bid_rooms_item_rental_price][bid_room_id][instance_num][item_id]
               bri.save

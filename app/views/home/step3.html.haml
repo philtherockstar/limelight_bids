@@ -1,3 +1,4 @@
+= link_to "Go back to Choosing Rooms", "/home/step2/#{@bid.id.to_s}"
 %h3 Choose Furniture for Rooms
 %div.bid_rental_costs
   %div.bid_total_rental_cost
@@ -35,6 +36,7 @@
           .table_row{:id => "row_#{br.id}_#{room_number}_#{row_number}", :data => { :room_id => "#{br.id}", :room_number => "#{room_number}", :template_room_id => "#{ri.id}", :row_number => "#{row_number}" }, :class => "table_row room_#{br.id}_#{room_number}" }
             %div.table_cell
               = "#{ri.item.name}"
+              %input{ :type => "hidden", :id => "bid_rooms_item_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item", :name => "bid_rooms_item[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.item.name}" }/
             %div.table_cell
               %input{ :type => "text", :id => "bid_rooms_item_quantity_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_quantity", :name => "bid_rooms_item_quantity[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.quantity}", :size => "3" }/
             %div.table_cell

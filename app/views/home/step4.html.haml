@@ -1,3 +1,7 @@
+%p
+  = link_to "Go back to Choosing Rooms", "/home/step2/#{@bid.id.to_s}"
+  |
+  = link_to "Go back to Choosing Items", "/home/step3/#{@bid.id.to_s}"
 - grand_total = 0
 %table{ :border => "1" }
   %tr
@@ -25,10 +29,10 @@
       - bri.each do |ri|
         %tr
           %td
-            = "#{ri.item.name}"
+            = "#{ri.item_name}"
           %td
-            - if ri.item.name.match(/accessor/i)
-              Misc
+            - if ri.item_name.match(/accessor/i)
+              Misc.
             - else
               = "#{ri.item_qty}"
           %td
