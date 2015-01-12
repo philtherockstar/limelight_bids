@@ -14,7 +14,7 @@
           - when /^Bathroom$/
             - num_rooms=2
       - logger.info("num_rooms is 0 for testing")
-      - num_rooms=0 # for testing only
+      - #num_rooms=0 # for testing only
   
       =text_field_tag "rooms[#{room.id}]", num_rooms, {:size => 3}
 
