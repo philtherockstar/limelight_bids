@@ -17,6 +17,12 @@
       - room_number=1
       - id=0
       - while room_number <= br.num_rooms
+        - room_exists=nil
+        - if @bid_room_items.size > 0 
+          - @bid_room_items.each do |britest|
+            - if britest.bid_room_id == br.id && britest.room_instance == room_number
+              - room_exists=true
+              - break
         %div.table_heading
           %div.table_cell
             - if br.num_rooms > 1
@@ -35,17 +41,13 @@
           - ri = room_item
           - row_number += 1
           - id=ri.id
-          - if @bid_room_items.size > 0 
-            - @bid_room_items.each do |britest|
-              - if britest.room_id == br.id && britest.room_instance == room_number
-                - bri = BidRoomItem.where("bid_room_id = #{br.id} and room_instance = #{room_number} and item_id = #{ri.item_id}")[0]
-                - if bri
-                  - ri.quantity = bri.item_qty
-                  - ri.item.rental_price = bri.rental_price
-                - else
-                  - ri.quantity = 0
-                - break
-
+          - if @bid_room_items.size > 0 && room_exists
+            - bri = BidRoomItem.where("bid_room_id = #{br.id} and room_instance = #{room_number} and item_id = #{ri.item_id}")[0]
+            - if bri
+              - ri.quantity = bri.item_qty
+              - ri.item.rental_price = bri.rental_price
+            - else
+              - ri.quantity = 0
           .table_row{:id => "row_#{br.id}_#{room_number}_#{row_number}", :data => { :room_id => "#{br.id}", :room_number => "#{room_number}", :template_room_id => "#{ri.id}", :row_number => "#{row_number}" }, :class => "table_row room_#{br.id}_#{room_number}" }
             %div.table_cell
               = "#{ri.item.name}"
@@ -56,7 +58,6 @@
               %input{ :type => "text", :id => "bid_rooms_item_rental_price_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_rental_price", :name => "bid_rooms_item_rental_price[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.item.rental_price}", :size => "3" }/
             %div.table_cell.bid_room_item_total{ :id => "bid_rooms_item_total_#{br.id}_#{room_number}_#{row_number}" }
               = ri.quantity * ri.item.rental_price
-        - #another row here
         - newbri = BidRoomItem.where("bid_room_id = #{br.id} and room_instance = #{room_number} and item_id = 0")[0]
         - if newbri
           - row_number += 1
@@ -73,10 +74,10 @@
 
         %div.table_row
           %div.table_cell
-            %button{ :class => "add_item_to_rooms", :id => "button_room_#{br.id}_#{room_number}", :data => { :room_id => "#{br.id}", :room_number => "#{room_number}" }, :name => "button", :type => "submit" }Add items
+            %button{ :class => "add_item_to_rooms", :id => "button_room_#{br.id}_#{room_number}", :data => { :room_id => "#{br.id}", :room_number => "#{room_number}" }, :name => "button", :type => "button" }Add items
         - room_number += 1
 
-  =submit_tag "Next >"
+  %button{ :id => "items_form_button", :name => "Next >", :type => "button" }Next >
 
 %div.bid_rental_costs
   %div.bid_total_rental_cost
