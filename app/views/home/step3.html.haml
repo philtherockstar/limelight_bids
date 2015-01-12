@@ -35,7 +35,7 @@
             Unit Rental Per Month
           %div.table_cell
             Total Rental Per Month
-        - tri = TemplateRoomItem.find_all_by_business_id_and_room_id(@business.id,br.room_id)
+        - tri = TemplateRoomItem.where( "business_id = #{@business.id} and room_id = #{br.room_id}")
         - row_number = 0
         - tri.each do |room_item|
           - ri = room_item
@@ -53,7 +53,11 @@
               = "#{ri.item.name}"
               %input{ :type => "hidden", :id => "bid_rooms_item_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item", :name => "bid_rooms_item[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.item.name}" }/
             %div.table_cell
-              %input{ :type => "text", :id => "bid_rooms_item_quantity_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_quantity", :name => "bid_rooms_item_quantity[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.quantity}", :size => "3" }/
+              - if ri.item.name.match(/accessor/i)
+                %input{ :type => "hidden", :id => "bid_rooms_item_quantity_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_quantity", :name => "bid_rooms_item_quantity[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "1" }/
+                Misc.
+              - else
+                %input{ :type => "text", :id => "bid_rooms_item_quantity_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_quantity", :name => "bid_rooms_item_quantity[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.quantity}", :size => "3" }/
             %div.table_cell
               %input{ :type => "text", :id => "bid_rooms_item_rental_price_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_rental_price", :name => "bid_rooms_item_rental_price[#{br.id}][#{room_number}][#{ri.item_id}]", :value => "#{ri.item.rental_price}", :size => "3" }/
             %div.table_cell.bid_room_item_total{ :id => "bid_rooms_item_total_#{br.id}_#{room_number}_#{row_number}" }
@@ -71,7 +75,7 @@
               %input{ :type => "text", :id => "bid_rooms_item_rental_price_#{br.id}_#{room_number}_#{row_number}", :class => "bid_room_item_rental_price", :name => "bid_rooms_item_rental_price[#{br.id}][#{room_number}][#{newbri.item_id}]", :value => "#{newbri.rental_price}", :size => "3" }/
             %div.table_cell.bid_room_item_total{ :id => "bid_rooms_item_total_#{br.id}_#{room_number}_#{row_number}" }
               = newbri.item_qty * newbri.rental_price
-
+        - # now where there any BidRoomItems that aren't in the template?
         %div.table_row
           %div.table_cell
             %button{ :class => "add_item_to_rooms", :id => "button_room_#{br.id}_#{room_number}", :data => { :room_id => "#{br.id}", :room_number => "#{room_number}" }, :name => "button", :type => "button" }Add items

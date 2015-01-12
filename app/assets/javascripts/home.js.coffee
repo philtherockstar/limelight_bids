@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ -> 
+ready = -> 
   calc_total = () ->
     console.log("calculating total")
     sum = 0
@@ -99,3 +99,6 @@ $ ->
       qty = $("#bid_rooms_item_quantity_" + id).val()
       $("#bid_rooms_item_total_" + id).text(qty * rental_price)
       calc_total()
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
